@@ -7,6 +7,7 @@ services:
     restart: always
     networks:
       - default
+      - bigdata
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
@@ -27,7 +28,6 @@ services:
       - "${FLOWER_EXTERNAL_PORT:-5555}:5555"
     networks:
       - default
-      - bigdata
     environment:
       - FLOWER_BASIC_AUTH=${FLOWER_BASIC_AUTH:-admin:admin}  # Autenticação básica com credenciais padrão
     command: >
