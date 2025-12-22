@@ -335,3 +335,8 @@ services:
 
 volumes:
   postgres-db-volume:
+
+networks:
+  bigdata:
+    external: true
+
