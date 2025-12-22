@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   minio1:
-    image: quay.io/minio/minio:RELEASE.2025-10-15T17-29-55Z
+    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
     container_name: minio1
     command: server --console-address ":9001" /data
     ports:
@@ -14,9 +14,9 @@ services:
     volumes:
       - /data/minio:/data
     networks:
-      - infra
+      - bigdata
     restart: always
 
 networks:
-  infra:
+  bigdata:
     external: true
