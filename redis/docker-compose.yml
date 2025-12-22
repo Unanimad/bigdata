@@ -9,6 +9,8 @@ services:
       - default
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - redis:/data
     healthcheck:
       interval: 30s
       timeout: 10s
@@ -36,6 +38,9 @@ services:
       retries: 3
       start_period: 15s
       test: ["CMD-SHELL", "curl --fail http://localhost:5555/ || exit 1"]
+
+volumes:
+  redis:
 
 networks:
   default:

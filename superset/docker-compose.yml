@@ -24,6 +24,8 @@
 # For verbose logging during development:
 # - Set SUPERSET_LOG_LEVEL=debug in docker/.env-local for detailed Superset logs
 # -----------------------------------------------------------------------
+name: bigdata_superset
+
 x-superset-image: &superset-image apachesuperset.docker.scarf.sh/apache/superset:${TAG:-latest-dev}
 x-superset-volumes:
   &superset-volumes # /app/pythonpath_docker will be appended to the PYTHONPATH in the final container
@@ -32,12 +34,6 @@ x-superset-volumes:
   - superset_home:/app/superset_home
 
 services:
-  redis:
-    image: redis:7
-    container_name: superset_cache
-    restart: unless-stopped
-    volumes:
-      - redis:/data
 
   db:
     env_file:
