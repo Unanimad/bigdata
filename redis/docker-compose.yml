@@ -1,28 +1,44 @@
+name: bigdata_redis
+
 services:
   redis:
     image: 'bitnami/redis:latest'
     container_name: redis
     restart: always
-    ports:
-      - '${REDIS_EXTERNAL_PORT:-6379}:6379'
     networks:
-      - infra
+      - default
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
+    healthcheck:
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+      test: ["CMD", "redis-cli", "ping"]
+    
 
   flower:
     image: mher/flower:2.0.0  # Usando a última versão da imagem Flower
     container_name: flower
     restart: always
     ports:
-      - "${FLOWER_EXTERNAL_PORT:-5555}:5555"  # Porta externa configurável
+      - "${FLOWER_EXTERNAL_PORT:-5555}:5555"
     networks:
-      - infra
+      - default
+      - bigdata
     environment:
       - FLOWER_BASIC_AUTH=${FLOWER_BASIC_AUTH:-admin:admin}  # Autenticação básica com credenciais padrão
     command: >
       celery --broker=redis://redis:6379/0 flower --port=5555
+    healthcheck:
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+      test: ["CMD-SHELL", "curl --fail http://localhost:5555/ || exit 1"]
 
 networks:
-  infra:
+  default:
+    driver: bridge
+  bigdata:
     external: true
