@@ -1,0 +1,4 @@
+!docker/.env
+docker/.env-local
+
+docker/pythonpath_dev/superset_config.py
